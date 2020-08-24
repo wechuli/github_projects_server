@@ -24,6 +24,6 @@ app.use((req, res) => {
   res.status(404).json({ error: true, message: "Route unavailable" });
 });
 
-app.listen(() => {
+app.listen(PORT, () => {
   console.info(`Listening on PORT ${PORT}`);
 });
