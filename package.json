@@ -1,0 +1,14 @@
+{
+  "name": "github_projects_server",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "repository": "https://github.com/wechuli/github_projects_server.git",
+  "author": "Wechuli <wechulipaul@yahoo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^4.1.0",
+    "morgan": "^1.10.0"
+  }
+}
