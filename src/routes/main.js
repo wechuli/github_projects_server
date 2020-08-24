@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 
 // memberships
 
-router.get("/member", async (req, res) => {
+router.post("/member", async (req, res) => {
   const { body } = req;
   try {
     console.log(body);
