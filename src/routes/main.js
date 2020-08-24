@@ -2,6 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
+// route for testing the server
 router.get("/", async (req, res) => {
   const requestBody = req.body;
   try {
@@ -11,6 +12,8 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: true });
   }
 });
+
+
 
 
 module.exports = router;
