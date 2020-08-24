@@ -2,6 +2,9 @@
   "name": "github_projects_server",
   "version": "1.0.0",
   "main": "./src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
   "repository": "https://github.com/wechuli/github_projects_server.git",
   "author": "Wechuli <wechulipaul@yahoo.com>",
   "license": "MIT",
