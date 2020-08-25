@@ -7,7 +7,7 @@ const genericSchema = new Schema(
     },
     body: {},
   },
-  { timestamps: true }
+  { timestamps: true, strict: false }
 );
 
 module.exports = model("genericrequest", genericSchema);

@@ -19,6 +19,13 @@ router.post("/member", async (req, res) => {
   const { body } = req;
   try {
     console.log(body);
+    const dataObject = {
+      name: "member",
+      body,
+    };
+
+    const newGenericData = new genericData(dataObject);
+    await newGenericData.save();
     res
       .status(200)
       .json({ error: true, message: "webhook successfully received" });
