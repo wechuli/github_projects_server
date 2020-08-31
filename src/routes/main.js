@@ -49,7 +49,7 @@ router.post("/test", async (req, res) => {
     res.status(200).json({
       error: false,
       message: "successful",
-      headers: { HTTP_X_GITHUB_EVENT },
+      headers: req.headers,
     });
   } catch (error) {
     res
