@@ -1,5 +1,7 @@
 const express = require("express");
+const axios = require("axios");
 const genericData = require("../models/generic");
+const { delay } = require("../utility/utilityMain");
 const router = express.Router();
 
 // route for testing the server
@@ -36,4 +38,17 @@ router.post("/member", async (req, res) => {
   }
 });
 
+// CI server for fake statuses
+
+router.post("/test", async (req, res) => {
+  const { body } = req;
+  try {
+    await delay(5000);
+    res.status(200).json({ error: true, message: "successful" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: true, message: "something unexpected happened" });
+  }
+});
 module.exports = router;

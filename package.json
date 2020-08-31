@@ -5,12 +5,12 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "env-cmd -f ./config/dev.env nodemon src/index.js"
-
   },
   "repository": "https://github.com/wechuli/github_projects_server.git",
   "author": "Wechuli <wechulipaul@yahoo.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.20.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "helmet": "^4.1.0",
