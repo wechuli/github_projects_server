@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const genericData = require("../models/generic");
-const { delay } = require("../utility/utilityMain");
+const { delay, octokit } = require("../utility/utilityMain");
 const router = express.Router();
 
 // route for testing the server
@@ -48,7 +48,22 @@ router.post("/test", async (req, res) => {
       HTTP_X_GITHUB_EVENT === "pull_request" &&
       payload["action"] == "opened"
     ) {
-      await delay(1000);
+      await octokit.request("POST /repos/{owner}/{repo}/statuses/{sha}", {
+        owner: payload["repository"]["owner"]["login"],
+        repo: payload["repository"]["name"],
+        sha: payload["pull_request"]["head"]["sha"],
+        state: "pending",
+      });
+
+      await delay(7000);
+
+      await octokit.request("POST /repos/{owner}/{repo}/statuses/{sha}", {
+        owner: payload["repository"]["owner"]["login"],
+        repo: payload["repository"]["name"],
+        sha: payload["pull_request"]["head"]["sha"],
+        state: "success",
+      });
+
       res.status(200).json({
         error: false,
         title: payload["pull_request"]["title"],
