@@ -41,7 +41,7 @@ router.post("/member", async (req, res) => {
 // CI server for fake statuses
 
 router.post("/test", async (req, res) => {
-  // const { payload } = req.body;
+  const payload = JSON.parse(req.body["payload"]);
   const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
   try {
     // if (
@@ -60,7 +60,7 @@ router.post("/test", async (req, res) => {
     res.status(200).json({
       message: "something is not right",
       HTTP_X_GITHUB_EVENT,
-      body: req.body,
+      body: payload,
     });
   } catch (error) {
     res
