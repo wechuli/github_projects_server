@@ -42,9 +42,15 @@ router.post("/member", async (req, res) => {
 
 router.post("/test", async (req, res) => {
   const { body } = req;
+  const { HTTP_X_GITHUB_EVENT } = req.headers;
   try {
+    console.log(HTTP_X_GITHUB_EVENT);
     await delay(5000);
-    res.status(200).json({ error: true, message: "successful" });
+    res.status(200).json({
+      error: false,
+      message: "successful",
+      headers: { HTTP_X_GITHUB_EVENT },
+    });
   } catch (error) {
     res
       .status(500)
