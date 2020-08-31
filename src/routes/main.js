@@ -43,6 +43,7 @@ router.post("/member", async (req, res) => {
 router.post("/test", async (req, res) => {
   const payload = JSON.parse(req.body["payload"]);
   const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
+  const statusContext = "Super_awesome_check";
   try {
     if (
       HTTP_X_GITHUB_EVENT === "pull_request" &&
@@ -52,15 +53,17 @@ router.post("/test", async (req, res) => {
         owner: payload["repository"]["owner"]["login"],
         repo: payload["repository"]["name"],
         sha: payload["pull_request"]["head"]["sha"],
+        context: statusContext,
         state: "pending",
       });
 
-      await delay(7000);
+      await delay(10000);
 
       await octokit.request("POST /repos/{owner}/{repo}/statuses/{sha}", {
         owner: payload["repository"]["owner"]["login"],
         repo: payload["repository"]["name"],
         sha: payload["pull_request"]["head"]["sha"],
+        context: statusContext,
         state: "success",
       });
 
