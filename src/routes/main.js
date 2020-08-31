@@ -57,7 +57,7 @@ router.post("/test", async (req, res) => {
         state: "pending",
       });
 
-      await delay(10000);
+      await delay(6000);
 
       await octokit.request("POST /repos/{owner}/{repo}/statuses/{sha}", {
         owner: payload["repository"]["owner"]["login"],
