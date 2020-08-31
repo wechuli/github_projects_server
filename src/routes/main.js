@@ -42,15 +42,17 @@ router.post("/member", async (req, res) => {
 
 router.post("/test", async (req, res) => {
   const { body } = req;
-  const { HTTP_X_GITHUB_EVENT } = req.headers;
+  const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
   try {
-    console.log(HTTP_X_GITHUB_EVENT);
-    await delay(5000);
-    res.status(200).json({
-      error: false,
-      message: "successful",
-      headers: req.headers,
-    });
+    if (HTTP_X_GITHUB_EVENT === "pull_request" && body["action"] == "opened") {
+      await delay(1000);
+      res.status(200).json({
+        error: false,
+        title: body["pull_request"]["title"],
+        message: "successful",
+        headers: req.headers,
+      });
+    }
   } catch (error) {
     res
       .status(500)
