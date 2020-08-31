@@ -41,26 +41,26 @@ router.post("/member", async (req, res) => {
 // CI server for fake statuses
 
 router.post("/test", async (req, res) => {
-  const { payload } = req.body;
+  // const { payload } = req.body;
   const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
   try {
-    if (
-      HTTP_X_GITHUB_EVENT === "pull_request" &&
-      payload["action"] == "opened"
-    ) {
-      await delay(1000);
-      res.status(200).json({
-        error: false,
-        title: body["pull_request"]["title"],
-        message: "successful",
-        headers: req.headers,
-      });
-    }
-    console.log(payload);
+    // if (
+    //   HTTP_X_GITHUB_EVENT === "pull_request" &&
+    //   payload["action"] == "opened"
+    // ) {
+    //   await delay(1000);
+    //   res.status(200).json({
+    //     error: false,
+    //     title: body["pull_request"]["title"],
+    //     message: "successful",
+    //     headers: req.headers,
+    //   });
+    // }
+
     res.status(200).json({
       message: "something is not right",
       HTTP_X_GITHUB_EVENT,
-      action: body["action"],
+      body: req.body,
     });
   } catch (error) {
     res
