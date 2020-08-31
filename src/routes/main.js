@@ -44,18 +44,18 @@ router.post("/test", async (req, res) => {
   const payload = JSON.parse(req.body["payload"]);
   const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
   try {
-    // if (
-    //   HTTP_X_GITHUB_EVENT === "pull_request" &&
-    //   payload["action"] == "opened"
-    // ) {
-    //   await delay(1000);
-    //   res.status(200).json({
-    //     error: false,
-    //     title: body["pull_request"]["title"],
-    //     message: "successful",
-    //     headers: req.headers,
-    //   });
-    // }
+    if (
+      HTTP_X_GITHUB_EVENT === "pull_request" &&
+      payload["action"] == "opened"
+    ) {
+      await delay(1000);
+      res.status(200).json({
+        error: false,
+        title: payload["pull_request"]["title"],
+        message: "successful",
+        headers: req.headers,
+      });
+    }
 
     res.status(200).json({
       message: "something is not right",
