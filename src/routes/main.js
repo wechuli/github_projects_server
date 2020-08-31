@@ -53,6 +53,13 @@ router.post("/test", async (req, res) => {
         headers: req.headers,
       });
     }
+    res
+      .status(200)
+      .json({
+        message: "something is not right",
+        HTTP_X_GITHUB_EVENT,
+        action: body["action"],
+      });
   } catch (error) {
     res
       .status(500)
