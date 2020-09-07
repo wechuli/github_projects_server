@@ -3,7 +3,8 @@ const express = require("express"),
   helmet = require("helmet"),
   mongoose = require("mongoose"),
   morgan = require("morgan"),
-  mainRoute = require("./routes/main");
+  mainRoute = require("./routes/main"),
+  appRoute = require("./routes/app");
 
 const app = express();
 
@@ -29,6 +30,7 @@ mongoose
 
 // routes
 app.use("/api", mainRoute);
+app.use("/app", appRoute);
 
 const PORT = process.env.PORT || 8080;
 
