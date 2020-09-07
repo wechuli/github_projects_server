@@ -44,8 +44,10 @@ router.post("/install", async (req, res) => {
 });
 
 router.post("/all", async (req, res) => {
-  const payload = JSON.parse(req.body["payload"]);
-  const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
+  //  const payload = JSON.parse(req.body["payload"]);
+  //const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
+
+  console.log(req.body);
 
   try {
     // if (HTTP_X_GITHUB_EVENT === "issues" && payload["action"] == "opened") {
@@ -60,7 +62,7 @@ router.post("/all", async (req, res) => {
     //     },
     //   });
     // }
-    console.log(payload);
+
     res.status(200).json({ error: false, message: "Successful" });
   } catch (error) {
     res.status(500).json({ error: true, message: "Server error" });
