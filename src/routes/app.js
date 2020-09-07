@@ -48,19 +48,19 @@ router.post("/all", async (req, res) => {
   const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
 
   try {
-    if (HTTP_X_GITHUB_EVENT === "issues" && payload["action"] == "opened") {
-      await request("POST /repos/{owner}/{repo}/issues/{issue_number}/labels", {
-        owner: payload["repository"]["owner"]["login"],
-        repo: payload["repository"]["name"],
-        issue_number: payload["issue"]["number"],
-        labels: ["needs-response"],
-        headers: {
-          authorization: `Bearer ${jwt}`,
-          accept: "application/vnd.github.machine-man-preview+json",
-        },
-      });
-    }
-    console.log(req.body);
+    // if (HTTP_X_GITHUB_EVENT === "issues" && payload["action"] == "opened") {
+    //   await request("POST /repos/{owner}/{repo}/issues/{issue_number}/labels", {
+    //     owner: payload["repository"]["owner"]["login"],
+    //     repo: payload["repository"]["name"],
+    //     issue_number: payload["issue"]["number"],
+    //     labels: ["needs-response"],
+    //     headers: {
+    //       authorization: `Bearer ${jwt}`,
+    //       accept: "application/vnd.github.machine-man-preview+json",
+    //     },
+    //   });
+    // }
+    console.log(payload);
     res.status(200).json({ error: false, message: "Successful" });
   } catch (error) {
     res.status(500).json({ error: true, message: "Server error" });
