@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/auth", (req, res) => {
+router.post("/auth", (req, res) => {
   try {
     console.log(req.body);
     res.status(200).json({ error: false, message: "Successful" });
@@ -11,7 +11,7 @@ router.get("/auth", (req, res) => {
   }
 });
 
-router.get("/install", (req, res) => {
+router.post("/install", (req, res) => {
   try {
     console.log(req.body);
     res.status(200).json({ error: false, message: "Successful" });
