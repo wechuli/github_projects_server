@@ -68,7 +68,8 @@ router.post("/all", async (req, res) => {
         { headers: headers }
       );
 
-      console.log(azure_moderation.data);
+      const reviewRecommended =
+        azure_moderation.data["Classification"]["ReviewRecommended"];
 
       const { data } = await request("GET /repos/:owner/:repo/installation", {
         owner,
@@ -85,17 +86,50 @@ router.post("/all", async (req, res) => {
         installationId,
       });
 
-      await request("POST /repos/{owner}/{repo}/issues/{issue_number}/labels", {
-        owner,
-        repo,
-        issue_number,
-        labels: ["needs-response"],
+      if (reviewRecommended) {
+        // label a danger issue
+        await request(
+          "POST /repos/{owner}/{repo}/issues/{issue_number}/labels",
+          {
+            owner,
+            repo,
+            issue_number,
+            labels: ["danger"],
 
-        headers: {
-          authorization: `token ${installationAccessToken}`,
-          accept: "application/vnd.github.machine-man-preview+json",
-        },
-      });
+            headers: {
+              authorization: `token ${installationAccessToken}`,
+              accept: "application/vnd.github.machine-man-preview+json",
+            },
+          }
+        );
+
+        // close the issue
+        await request("PATCH /repos/{owner}/{repo}/issues/{issue_number}", {
+          owner,
+          repo,
+          issue_number,
+          state: "closed",
+          headers: {
+            authorization: `token ${installationAccessToken}`,
+            accept: "application/vnd.github.machine-man-preview+json",
+          },
+        });
+      } else {
+        await request(
+          "POST /repos/{owner}/{repo}/issues/{issue_number}/labels",
+          {
+            owner,
+            repo,
+            issue_number,
+            labels: ["needs-response", "okay"],
+
+            headers: {
+              authorization: `token ${installationAccessToken}`,
+              accept: "application/vnd.github.machine-man-preview+json",
+            },
+          }
+        );
+      }
     }
 
     res.status(200).json({ error: false, message: "Successful" });
