@@ -44,24 +44,44 @@ router.post("/install", async (req, res) => {
 });
 
 router.post("/all", async (req, res) => {
-  //  const payload = JSON.parse(req.body["payload"]);
-  //const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
+  const payload = req.body;
+  const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
 
   console.log(req.body);
 
   try {
-    // if (HTTP_X_GITHUB_EVENT === "issues" && payload["action"] == "opened") {
-    //   await request("POST /repos/{owner}/{repo}/issues/{issue_number}/labels", {
-    //     owner: payload["repository"]["owner"]["login"],
-    //     repo: payload["repository"]["name"],
-    //     issue_number: payload["issue"]["number"],
-    //     labels: ["needs-response"],
-    //     headers: {
-    //       authorization: `Bearer ${jwt}`,
-    //       accept: "application/vnd.github.machine-man-preview+json",
-    //     },
-    //   });
-    // }
+    if (HTTP_X_GITHUB_EVENT === "issues" && payload["action"] == "opened") {
+      const owner = payload["repository"]["owner"]["login"];
+      const repo = payload["repository"]["name"];
+      const issue_number = payload["issue"]["number"];
+
+      const { data } = await request("GET /repos/:owner/:repo/installation", {
+        owner,
+        repo,
+        headers: {
+          authorization: `Bearer ${jwt}`,
+          accept: "application/vnd.github.machine-man-preview+json",
+        },
+      });
+
+      const installationId = data.id;
+
+      const installationAccessToken = await app.getInstallationAccessToken({
+        installationId,
+      });
+
+      await request("POST /repos/{owner}/{repo}/issues/{issue_number}/labels", {
+        owner,
+        repo,
+        issue_number,
+        labels: ["needs-response"],
+
+        headers: {
+          authorization: `token ${installationAccessToken}`,
+          accept: "application/vnd.github.machine-man-preview+json",
+        },
+      });
+    }
 
     res.status(200).json({ error: false, message: "Successful" });
   } catch (error) {
