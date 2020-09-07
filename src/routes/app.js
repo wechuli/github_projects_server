@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require("axios");
 const { App } = require("@octokit/app");
 const { request } = require("@octokit/request");
 
@@ -47,6 +48,11 @@ router.post("/all", async (req, res) => {
   const payload = req.body;
   const HTTP_X_GITHUB_EVENT = req.headers["x-github-event"];
 
+  const headers = {
+    "Content-Type": "text/plain",
+    "Ocp-Apim-Subscription-Key": process.env.AZURE_COGNITIVE,
+  };
+
   console.log(req.body);
 
   try {
@@ -54,6 +60,15 @@ router.post("/all", async (req, res) => {
       const owner = payload["repository"]["owner"]["login"];
       const repo = payload["repository"]["name"];
       const issue_number = payload["issue"]["number"];
+      const issue_body = payload["issue"]["body"];
+
+      const azure_moderation = await axios.post(
+        "https://cognitive-services-playground.cognitiveservices.azure.com/contentmoderator/moderate/v1.0/ProcessText/Screen?classify=True",
+        issue_body,
+        { headers: headers }
+      );
+
+      console.log(azure_moderation.data);
 
       const { data } = await request("GET /repos/:owner/:repo/installation", {
         owner,

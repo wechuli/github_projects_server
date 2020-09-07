@@ -44,28 +44,5 @@ async function DoAll() {
   });
 }
 
+
 DoAll();
-
-// https://developer.github.com/v3/issues/#create-an-issue
-// request("POST /repos/:owner/:repo/issues", {
-//   owner: "paulosmallz",
-//   repo: "new_repo",
-//   headers: {
-//     authorization: `token ${installationAccessToken}`,
-//     accept: "application/vnd.github.machine-man-preview+json",
-//   },
-//   title: "My installation’s first issue",
-// });
-
-// request("POST /repos/{owner}/{repo}/issues/{issue_number}/labels", {
-//   owner: "paulosmallz",
-//   repo: "new_repo",
-//   issue_number: 5,
-//   labels: ["needs-response"],
-//   headers: {
-//     authorization: `Bearer ${jwt}`,
-//     accept: "application/vnd.github.machine-man-preview+json",
-//   },
-// })
-//   .then((response) => console.log(response.data))
-//   .catch((error) => console.log(error));
